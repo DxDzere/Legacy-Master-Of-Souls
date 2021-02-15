@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	GameObject enemy;
 
 	public SpriteRenderer spriteRenderer;
+	public LayerMask mask;
 
 	void Start(){
 		enemy = GameObject.FindGameObjectWithTag("Enemy");
@@ -24,14 +25,14 @@ public class PlayerController : MonoBehaviour {
 			transform.position,
 			enemy.transform.position - transform.position,
 			visionRadius,
-			1 << LayerMask.NameToLayer ("Default")
+			mask
 		);
 
 		Vector3 forward = transform.TransformDirection (enemy.transform.position - transform.position);
 		/*Debug.DrawRay (transform.position, forward, Color.red);*/
 		//si si estaba biendo algo nomas pero creo que se me borro parte del codigo xD
 		if(hit.collider != null){
-			if(hit.collider.tag == "Enemy"){
+			if(hit.collider.gameObject.CompareTag("Enemy")){
 				//si esto es del raycast aca se activa primero la vicion lo que seria del enemigo el movimiento
 			}
 		}
@@ -47,21 +48,21 @@ public class PlayerController : MonoBehaviour {
 
 		if(Input.GetKey("a"))
 		{ 
-			gameObject.transform.Translate (-speed, 0, 0);
+			gameObject.transform.Translate (-speed*Time.deltaTime, 0, 0);
 			spriteRenderer.flipX = true;
 		}
 		if(Input.GetKey("d"))
 		{ 
-			gameObject.transform.Translate (speed, 0, 0);
+			gameObject.transform.Translate (speed*Time.deltaTime, 0, 0);
 			spriteRenderer.flipX = false;
 		}
 		if(Input.GetKey("w"))
 		{ 
-			gameObject.transform.Translate (0,speed,0);
+			gameObject.transform.Translate (0,speed*Time.deltaTime,0);
 		}
 		if(Input.GetKey("s"))
 		{ 
-			gameObject.transform.Translate (0,-speed, 0);
+			gameObject.transform.Translate (0,-speed*Time.deltaTime, 0);
 		}
 	}
 
