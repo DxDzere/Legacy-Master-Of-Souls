@@ -12,8 +12,9 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/GameMannager.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oUybqd5h71bNkN7YhMuhv2r4L4" />
@@ -68,6 +69,10 @@
       <workItem from="1613360295151" duration="3540000" />
       <workItem from="1613364737045" duration="618000" />
       <workItem from="1613365620492" duration="1502000" />
+      <workItem from="1613496033364" duration="2095000" />
+      <workItem from="1613498193638" duration="19000" />
+      <workItem from="1613525276206" duration="5280000" />
+      <workItem from="1613614942771" duration="1934000" />
     </task>
     <servers />
   </component>

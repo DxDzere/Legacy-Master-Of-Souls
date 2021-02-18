@@ -1,8 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
+	[Header("Estadisticas")]
+	public float vida;
+	public Text textoVida;
+	public float defensa;
+	public float ataque;
+	public float tiempoDeAtaque;
+	
 	//Variables para gestionar el radio de vision, el de ataque y la velocidad
 	[Header("Raycast")]
 	public float visionRadius;
@@ -10,23 +19,27 @@ public class EnemyController : MonoBehaviour {
 	public float speed;
 	//Vaiable para guardar al jugador
 	GameObject player;
-
+	private PlayerController pc; 
 	private GameObject soldado;
+	private GameMannager gm;
+	
 	//Variable para guardar la posicion inicial
 	Vector3 initialPosition;
 	//Animador de cuerpo cinematico con la rotacion en z congelada
 	//Animator anim;
 	Rigidbody2D rb2d;
-	public LayerMask mask;
-
-	public Vector3 target;
+	public LayerMask mask; 
+	Vector3 target;
+	private bool estaEnEspera;
+	
 	void Start(){
 		//Recuperamos al jugador gracias al tag
 		player = GameObject.FindGameObjectWithTag("Player");
+		pc = player.GetComponent<PlayerController>();
 		soldado = GameObject.FindGameObjectWithTag("Soldier");
 		//Guardamos nuestra posicion inicial
 		initialPosition = transform.position;
-		
+		textoVida.text = vida.ToString();
 		//anim = GetComponent<Animator> ();
 		rb2d = GetComponent<Rigidbody2D>();
 	}
@@ -74,9 +87,14 @@ public class EnemyController : MonoBehaviour {
         //Si es el enemigo y esta en rango de ataque nos paramos y le atacamos
         if (target != initialPosition && distance < attackRadius)
         {
+	        if (target == player.transform.position && estaEnEspera == false)
+	        {
+		        StartCoroutine(Espera());
+	        }
             //	anim.SetFloat ("movX", dir.x);
             //	anim.SetFloat ("movY", dir.y); 
             //	anim.Play ("Enemy_Walk", -1, 0); //Congela la animacion de andar
+            
         }
         //En caso contrario nos movemos hacia el
         else
@@ -86,13 +104,13 @@ public class EnemyController : MonoBehaviour {
             //	//Al movernos establecemos la animacion de movimiento
             //	anim.SetFloat ("movX", dir.x);
             //	anim.SetFloat ("movY", dir.y);
-            //	anim.SetBool ("walking", true);
+            //	anim.SetBool ("isWalking", true);
         }
 
         //Una ultima comprobacion para evitar bugs forzando la posicion inicial
         if (target == initialPosition && distance < 0.02f){ 
 			transform.position = initialPosition;
-			//anim.SetBool ("walking", false);
+			//anim.SetBool ("isWalking", false);
 		}
 		//Y el debug optativo con una linea hasta el target
 		Debug.DrawLine(transform.position, target, Color.green);
@@ -104,8 +122,31 @@ public class EnemyController : MonoBehaviour {
 		Gizmos.DrawWireSphere (transform.position, attackRadius);
 	}
 
-	void CalcularDistancia(Vector3 a, Vector3 b)
+	public void ResibirDaño(float dañoJugador)
 	{
-		
+		if (vida <= 0)
+		{
+			Mori();
+		}
+		else
+		{
+			float dañoRecivido = dañoJugador - defensa;
+			vida = vida - dañoRecivido;
+			textoVida.text = vida.ToString();
+		}
+	}
+
+	void Mori()
+	{
+		this.enabled = false;
+		textoVida.text = "Estoy Muerto";
+	}
+	
+	IEnumerator Espera()
+	{
+		estaEnEspera = true;
+		pc.ResibirDaño(ataque);
+		yield return new WaitForSeconds(tiempoDeAtaque);
+		estaEnEspera = false;
 	}
 }

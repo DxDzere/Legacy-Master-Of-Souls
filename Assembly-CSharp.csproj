@@ -60,6 +60,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\ControlDeCamara.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Scripts\GameMannager.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/DxDzere/Documents/GitHub/Legacy Master Of Souls/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
