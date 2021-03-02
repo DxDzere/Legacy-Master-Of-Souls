@@ -21,7 +21,8 @@ public class EnemyController : MonoBehaviour {
 	GameObject player;
 	private PlayerController pc; 
 	private GameObject soldado;
-	private GameMannager gm;
+	//GameObject gameMannager;
+	//GameMannager gm;
 	
 	//Variable para guardar la posicion inicial
 	Vector3 initialPosition;
@@ -37,6 +38,8 @@ public class EnemyController : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		pc = player.GetComponent<PlayerController>();
 		soldado = GameObject.FindGameObjectWithTag("Soldier");
+		//gameMannager = GameObject.FindGameObjectWithTag("GameMannager");
+		//gm = gameMannager.GetComponent<GameMannager>();
 		//Guardamos nuestra posicion inicial
 		initialPosition = transform.position;
 		textoVida.text = vida.ToString();
@@ -64,7 +67,7 @@ public class EnemyController : MonoBehaviour {
 		Debug.DrawRay (transform.position, forward, Color.red); //y sino en rojo
 
 		//Debug.Log(hit.transform.position);
-		//Si el RAycast encuentra al jugador lo ponemos de target
+		//Si el Raycast encuentra al jugador lo ponemos de target
 		if(hit.collider != null){
 			if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Soldier") )
 			{
@@ -124,21 +127,18 @@ public class EnemyController : MonoBehaviour {
 
 	public void ResibirDaño(float dañoJugador)
 	{
+		float dañoRecivido = dañoJugador - (dañoJugador*defensa)/100;
+		vida = vida - dañoRecivido;
+		textoVida.text = vida.ToString();
 		if (vida <= 0)
 		{
 			Mori();
-		}
-		else
-		{
-			float dañoRecivido = dañoJugador - defensa;
-			vida = vida - dañoRecivido;
-			textoVida.text = vida.ToString();
 		}
 	}
 
 	void Mori()
 	{
-		this.enabled = false;
+		//gm.DesactivarGameObjectEnemigo();
 		textoVida.text = "Estoy Muerto";
 	}
 	

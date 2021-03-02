@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 	private bool estaEnEspera = false;
 	GameObject enemy;
 	private EnemyController ec;
+	//GameObject gameMannager;
+	//GameMannager gm;
 	public SpriteRenderer spriteRenderer;
 	public LayerMask mask;
 	private Animator anim;
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
 	void Start(){
 		enemy = GameObject.FindGameObjectWithTag("Enemy");
 		ec = enemy.GetComponent<EnemyController>();
+		//gameMannager = GameObject.FindGameObjectWithTag("GameMannager");
+		//gm = gameMannager.GetComponent<GameMannager>();
 		textoVida.text = vida.ToString();
 		anim = GetComponent<Animator>();
 	}
@@ -88,22 +92,19 @@ public class PlayerController : MonoBehaviour
 	}
 
 	public void ResibirDaño(float dañoEnemigo)
-	{//69,83,28
+	{
+		float dañoRecivido = dañoEnemigo - (dañoEnemigo*defensa)/100;
+		vida = vida - dañoRecivido;
+		textoVida.text = vida.ToString();
 		if (vida <= 0)
 		{
 			Mori();
-		}
-		else
-		{
-			float dañoRecivido = dañoEnemigo - defensa;
-			vida = vida - dañoRecivido;
-			textoVida.text = vida.ToString();
 		}
 	}
 
 	void Mori()
 	{
-		this.enabled = false;
+		//gm.DesactivarGameObjectPlayer();
 		textoVida.text = "Estoy Muerto";
 	}
 	

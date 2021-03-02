@@ -5,16 +5,21 @@ using UnityEngine.UI;
 
 public class GameMannager : MonoBehaviour
 {
-    public Text vidaJugador;
-    public Text vidaEmeigo;
-    public GameObject player;
-    public GameObject Enemy;
+    GameObject player;
+    GameObject enemy;
 
-    
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
+    }
+
+    public void DesactivarGameObjectPlayer()
+    {
+        player.SetActive(false);
+    }
+    public void DesactivarGameObjectEnemigo()
+    {
+        enemy.SetActive(false);
     }
 }
